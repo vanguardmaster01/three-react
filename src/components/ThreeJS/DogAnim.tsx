@@ -134,28 +134,15 @@ export function DogAnim({...props}) {
   const skinnedMesh = useRef<THREE.SkinnedMesh>();
   const bone = useRef<THREE.Bone>();
 
-  const gltf = useLoader(GLTFLoader,"/DogAnim.glb");
-  // const slinnedMesh = new THREE.SkinnedMesh(gltf.scene.children[0].children[0].geometry, gltf.scene.children[0].children[0].material);
-  // const skeleton = new THREE.Skeleton(gltf.scene.children[1]) // create a skeleton from the gltf scene
-  // const rootBone = skeleton.bones[0] // get the root bon
-  console.log('---------gltf-----------');
-  console.log(gltf.scene.children[0].children[0]);
-
   const { nodes, materials, animations } = useGLTF(
     "/DogAnim.glb"
   ) as GLTFResult;
-
-  console.log("-------anmations-------");
-  console.log(animations);
-  console.log("--------------");
   
   const { ref, actions } = useAnimations(animations, group);
 
   
   console.log("------actions--------");
   console.log(actions);
-  console.log(ref);
-  console.log(group)
   console.log("--------------");
 
   const keyactionsStoped = useRef<boolean>(false);
@@ -171,7 +158,7 @@ export function DogAnim({...props}) {
     }, 50);
   }, [nodes]);
   useEffect(() => {
-    actions.ClickedOn!.play();
+    actions._CharacterSucceeds!.play();
     if (talkingHead.lastAudioT === 0.0) {
       actions.Idle!.play();
     }
@@ -182,9 +169,11 @@ export function DogAnim({...props}) {
   console.log('-----------');
 
   return (
-    <group ref={ref as React.Ref<THREE.Group>} {...props} dispose={null} >
+    <group ref={ref as React.Ref<THREE.Group>} {...props} dispose={null} position={[0, -1, 7]}>
         {/* <object3D name="Geometry" position={[0,0,0]} rotation={[0,0,0]} scale={[1,1,1]}> */}
-        <primitive object={nodes.Root}></primitive>
+          <ambientLight intensity={0.5} /> 
+          <directionalLight intensity={1} position={[0, 10, 0]} /> 
+          <primitive object={nodes.Root}></primitive>
           <skinnedMesh name="Rover" geometry={nodes.Rover.geometry} material={nodes.Rover.material} skeleton={nodes.Rover.skeleton}>
           </skinnedMesh>
           {/* <object3D name="Rover_Props" position={[0,0,0]} rotation={[0,0,0,]} scale={[1,1,1]}> */}

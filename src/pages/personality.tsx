@@ -24,7 +24,9 @@ import {ConfigContext} from '../context/config';
 import useStyle, {COLORS} from './styles';
 import { Canvas } from '@react-three/fiber'
 import {Doggo} from '../components/ThreeJS/Doggo07';
-// import {DogAnim} from '../components/ThreeJS/DogAnim';
+import {DogAnim} from '../components/ThreeJS/DogAnim';
+
+const useDoggo = false;
 
 const Personality: React.FC = () => {
   const optionsTab = 'options';
@@ -304,8 +306,9 @@ const Personality: React.FC = () => {
               style={{ backgroundColor: '#FAD972' }}
             >
               <pointLight position={[0, 0, 10]} intensity={.03}/>
-              <Doggo></Doggo>
-              {/* <DogAnim></DogAnim> */}
+              {
+                  useDoggo ? <Doggo></Doggo> : <DogAnim></DogAnim>
+              }
             </Canvas>
           ) : (
             <CardMedia
